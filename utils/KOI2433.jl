@@ -47,4 +47,11 @@ T0 = [0.0,
 tstart =  285.3977955338*DAYS #starting time
 tend   = 1524.0011050734*DAYS #end time
 
-ep = tstart
+#Read in transit times -- this uses the DR25 Kepler Database format
+ttdir = "/Volumes/astro/Kepler/Kepler_n/timing/"
+ttbase = "koi2433"
+nTT_obs, TT_obs, TTerr_obs = readtt(nbody,ttdir,ttbase);
+
+# Things you probably do not want to change
+ep = tstart #Epoch -- if you need to shift T0 to match tstart
+nbody = length(mass); #compute the number of bodies 

@@ -18,9 +18,12 @@ include("utils/calcxyzae.jl")
 include("utils/gettt.jl")
 include("utils/calcmeanperiods.jl")
 include("utils/plotting_functions.jl")
+include("utils/readtt.jl")
 
 # Import Planet System parameters
 include("utils/KOI2433.jl");
+
+
 
 tspan = (tstart, tend); #integration range
 
