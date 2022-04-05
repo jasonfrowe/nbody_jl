@@ -17,7 +17,7 @@ function get_ystart_v3(mass, eccn, periods, T0, ep)
     end
 
     tmass = 0.0 #cumulative mass
-    isort = sortperm(periods) #iterate starting for inner most object
+    isort = sortperm(periods) #iterate starting with inner most object
     
     #Track centre of mass
     com = [0.0, 0.0, 0.0]

@@ -15,7 +15,8 @@ mass = [0.99 * MSUN,
        ]
 
 #Orbital Eccentricity
-eccn = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0] #eccentricity
+sqecosω = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0] #eccentricity
+sqesinω = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0] #eccentricity
 
 #Orbital Periods
 periods = [0.0, 

@@ -14,6 +14,7 @@ include("utils/constants.jl");
 # include("utils/get_ystart.jl")
 # include("utils/get_ystart_v2.jl")
 include("utils/get_ystart_v3.jl")
+include("utils/get_ystart_v4.jl")
 include("utils/hsimd.jl")
 include("utils/store_orbit.jl")
 include("utils/calcxyzae.jl")
@@ -25,7 +26,14 @@ include("utils/plotting_functions.jl")
 include("utils/KOI2433.jl");
 
 tspan = (tstart, tend); #integration range
+
+eccn=zeros(nbody);
 p0,q0=get_ystart_v3(mass,eccn,periods,T0,ep); #getting initial conditions
+println("v3: $(q0[1:6])")
+
+include("utils/get_ystart_v4.jl");
+p0, q0 = get_ystart_v4(mass, periods, T0, ep, sqecosω, sqesinω);
+print("v4: $(q0[1:6])" )
 
 q0=SVector{size(q0)[1]}(q0); #store as Static Array for better speed
 p0=SVector{size(p0)[1]}(p0);
@@ -61,3 +69,4 @@ t=0
 using BenchmarkTools
 @benchmark H_simd(p0, q0, mass, t)
 
+eps(1.0)
