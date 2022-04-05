@@ -1,4 +1,9 @@
-function calxyzae(i, p, q, mass, nbody, nvecd2)
+function calxyzae(i::Integer, 
+    p::AbstractVector, 
+    q::AbstractVector, 
+    mass::AbstractVector, 
+    nbody::AbstractVector, 
+    nvecd2::Integer)
 
     CoM = zeros(Integer(nvecd2)) #center of mass
     CoV = zeros(Integer(nvecd2)) #center of mass

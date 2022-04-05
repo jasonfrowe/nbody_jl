@@ -1,4 +1,8 @@
-function H_simd(p, q, mass, t)
+function H_simd(
+    p::AbstractVector, 
+    q::AbstractVector, 
+    mass::AbstractVector, 
+    t::AbstractFloat)
     
     nbody = length(mass)
     nvecd2 = Integer(NVEC / 2)

@@ -1,4 +1,7 @@
-function store_orbit(sol, mass, nbody, NVEC)
+function store_orbit(sol::AbstractVector, 
+    mass::AbstractVector, 
+    nbody::AbstractVector, 
+    NVEC::Integer)
 
     #Requires calxyzae.jl
 

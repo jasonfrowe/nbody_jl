@@ -1,4 +1,10 @@
-function get_ystart_v4(mass, periods, T0, ep, sqecosω, sqesinω)
+function get_ystart_v4(
+        mass::AbstractVector, 
+        periods::AbstractVector, 
+        T0::AbstractVector, 
+        ep::AbstractFloat, 
+        sqecosω::AbstractVector, 
+        sqesinω::AbstractVector)
     #sets up the initial conditions of the simulation translating m,e,p,t0 -> x,y,z,vx,vy,vz
    
     nbody = length(mass)

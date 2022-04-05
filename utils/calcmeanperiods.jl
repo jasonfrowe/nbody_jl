@@ -1,4 +1,4 @@
-function calcmeanperiods(nTT,TT)
+function calcmeanperiods(nTT::AbstractVector,TT::AbstractMatrix)
 
     #Requires pmodel
 
