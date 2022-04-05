@@ -11,8 +11,9 @@ using LsqFit
 include("utils/constants.jl");
 
 # Import Functions
-include("utils/get_ystart.jl")
-include("utils/get_ystart_v2.jl")
+# include("utils/get_ystart.jl")
+# include("utils/get_ystart_v2.jl")
+include("utils/get_ystart_v3.jl")
 include("utils/hsimd.jl")
 include("utils/store_orbit.jl")
 include("utils/calcxyzae.jl")
@@ -24,7 +25,7 @@ include("utils/plotting_functions.jl")
 include("utils/KOI2433.jl");
 
 tspan = (tstart, tend); #integration range
-p0,q0=get_ystart_v2(mass,eccn,periods,T0,ep); #getting initial conditions
+p0,q0=get_ystart_v3(mass,eccn,periods,T0,ep); #getting initial conditions
 
 q0=SVector{size(q0)[1]}(q0); #store as Static Array for better speed
 p0=SVector{size(p0)[1]}(p0);

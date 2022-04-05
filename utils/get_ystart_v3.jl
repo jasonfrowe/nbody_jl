@@ -16,12 +16,11 @@ function get_ystart_v3(mass, eccn, periods, T0, ep)
         end
     end
 
-    tmass = 0.0
+    tmass = 0.0 #cumulative mass
     isort = sortperm(periods) #iterate starting for inner most object
     
     #Track centre of mass
     com = [0.0, 0.0, 0.0]
-    #com_old = [0.0, 0.0, 0.0]
     
     for i ∈ isort
         asemi = (periods[i] * periods[i] * G * (mass[i] + tmass) / (4 * π2))^(1.0 / 3.0)
@@ -29,7 +28,7 @@ function get_ystart_v3(mass, eccn, periods, T0, ep)
         r = asemi * (1 - eccn[i] * eccn[i]) / (1 + eccn[i] * cos(trueanom[i]))   
 
         x = r * cos(trueanom[i]) + com[1] #X-position
-        y = r * sin(trueanom[i]) + com[2]#Y-position
+        y = r * sin(trueanom[i]) + com[2] #Y-position
         z = 0.0 + com[3] #ignoring inclination for the moment.
         
         #Update CoM
@@ -44,13 +43,13 @@ function get_ystart_v3(mass, eccn, periods, T0, ep)
         end
         vx = -temp * sin(trueanom[i]) #X velocity
         vy = +temp * (eccn[i] + cos(trueanom[i])) #Y velocity
-        vz = 0.0
+        vz = 0.0 #Ignoring inclination for now.
 
-        q[i*nvecd2-2] = x
+        q[i*nvecd2-2] = x #position vector
         q[i*nvecd2-1] = y
         q[i*nvecd2  ] = z
         
-        p[i*nvecd2-2] = vx * mass[i]
+        p[i*nvecd2-2] = vx * mass[i] #momentum vector
         p[i*nvecd2-1] = vy * mass[i]
         p[i*nvecd2  ] = vz * mass[i]
 
