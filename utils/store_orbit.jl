@@ -1,6 +1,6 @@
-function store_orbit(sol::AbstractVector, 
+function store_orbit(sol, 
     mass::AbstractVector, 
-    nbody::AbstractVector, 
+    nbody::Integer, 
     NVEC::Integer)
 
     #Requires calxyzae.jl
@@ -52,7 +52,7 @@ function store_orbit(sol::AbstractVector,
     end
     
     TotalEnergy = zeros(npt)
-    t = 0
+    t = 0.0
     Threads.@threads for i ∈ 1:npt
         TotalEnergy[i] = H_simd(sol.u[i][1:nbodyvecd2], sol.u[i][nbodyvecd2+1:nbody*NVEC], mass, t)
     end

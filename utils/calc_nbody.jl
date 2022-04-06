@@ -15,5 +15,4 @@ function calc_nbody(mass, periods, T0, ep, sqecosω, sqesinω, tspan)
 
     return sol
 
-
 end

@@ -2,7 +2,7 @@ function calxyzae(i::Integer,
     p::AbstractVector, 
     q::AbstractVector, 
     mass::AbstractVector, 
-    nbody::AbstractVector, 
+    nbody::Integer, 
     nvecd2::Integer)
 
     CoM = zeros(Integer(nvecd2)) #center of mass

@@ -1,4 +1,4 @@
-function getTT(sol::AbstractVector, mass::AbstractVector, G::AbstractFloat)
+function getTT(sol, mass::AbstractVector, G::AbstractFloat)
     #Calculates transit-times for the system.
     #assumes mass[1]=central star.  Transit occurs when y=0 and x>0.
 

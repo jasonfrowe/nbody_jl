@@ -24,11 +24,11 @@ include("utils/likelihood.jl")
 
 # Import Planet System parameters
 include("utils/KOI2433.jl");
-
+ 
 sol = calc_nbody(mass, periods, T0, ep, sqecosω, sqesinω, tspan);
 
 #Store model
-@time df = store_orbit(sol_001, mass, nbody, NVEC);
+@time df = store_orbit(sol, mass, nbody, NVEC);
 #Extract TTs
 @time nTT,TT=getTT(sol, mass, G);
 
@@ -44,8 +44,10 @@ println((tt_period ./ DAYS) - (periods ./ DAYS))
 
 plotTTVs(tt_T0, tt_period, nTT, TT)
 
-t=0;
-using BenchmarkTools
-@benchmark H_simd(p0, q0, mass, t)
+# t=0.0;
+# using BenchmarkTools
+# @benchmark H_simd(p0, q0, mass, t)
 
 @benchmark ll = likelihood(mass, periods, T0, ep, sqecosω, sqesinω, tspan, G, nbody)
+
+# using Turing, Distributions
