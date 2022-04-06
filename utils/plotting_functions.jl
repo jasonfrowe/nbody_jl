@@ -1,21 +1,21 @@
-function plotTTVs(tt_T0,tt_periods,nTT,TT)
-    trace=[]
-    nbody=size(tt_T0)[1]
-    for nb in 2:nbody
+function plotTTVs(tt_T0, tt_periods, nTT, TT)
 
-        P1=tt_periods[nb]
-        T1=tt_T0[nb]
+    trace = []
+    nbody = size(tt_T0)[1]
+    for nb ∈ 2:nbody
 
-        y=(TT[nb,1:nTT[nb]] .- T1) ./P1 
-        y=(y.-floor.(y .+ 0.5)) * P1 ./DAYS *24 * 60
-        # y=(y .- stat.median(y))
-        x=TT[nb,1:nTT[nb]]/DAYS
+        P1 = tt_periods[nb]
+        T1 = tt_T0[nb]
 
-        if nb==2
-            trace=scatter(x=x,y=y,mode="lines+markers",opacity=1)
+        y = (TT[nb,1:nTT[nb]] .- T1) ./P1 
+        y = (y .- floor.(y .+ 0.5)) * P1 ./ DAYS *24 * 60
+        x = TT[nb, 1:nTT[nb]] / DAYS
+
+        if nb == 2
+            trace = scatter(x=x,y=y,mode="lines+markers",opacity=1)
         else
-            trace1=scatter(x=x,y=y,mode="lines+markers",opacity=1)
-            trace=vcat(trace,trace1)
+            trace1 = scatter(x=x,y=y,mode="lines+markers",opacity=1)
+            trace = vcat(trace,trace1)
         end
 
     end

@@ -44,8 +44,12 @@ T0 = [0.0,
       2.8834623274E+02 * DAYS
      ]
 
+#Time span for simulation
 tstart =  285.3977955338*DAYS #starting time
 tend   = 1524.0011050734*DAYS #end time
+
+#Integration time-step
+Δt=0.00012; #minimum(periods[2:nbody])/10
 
 #Read in transit times -- this uses the DR25 Kepler Database format
 ttdir = "/Volumes/astro/Kepler/Kepler_n/timing/"
@@ -55,3 +59,4 @@ nTT_obs, TT_obs, TTerr_obs = readtt(nbody,ttdir,ttbase);
 # Things you probably do not want to change
 ep = tstart #Epoch -- if you need to shift T0 to match tstart
 nbody = length(mass); #compute the number of bodies 
+tspan = (tstart, tend); #integration range

@@ -19,48 +19,33 @@ include("utils/gettt.jl")
 include("utils/calcmeanperiods.jl")
 include("utils/plotting_functions.jl")
 include("utils/readtt.jl")
+include("utils/calc_nbody.jl")
+include("utils/likelihood.jl")
 
 # Import Planet System parameters
 include("utils/KOI2433.jl");
 
-
-
-tspan = (tstart, tend); #integration range
-
-p0, q0 = get_ystart_v4(mass, periods, T0, ep, sqecosω, sqesinω);
-print("v4: $(q0[1:6])" )
-
-q0=SVector{size(q0)[1]}(q0); #store as Static Array for better speed
-p0=SVector{size(p0)[1]}(p0);
-mass=SVector{size(mass)[1]}(mass);
-param=mass;
-
-prob = HamiltonianProblem(H_simd, p0, q0, tspan, param); #set up Hamiltonian to solve
-
-#Calculate Model
-Δt=0.00012; #minimum(periods[2:nbody])/10
-@time sol_001 = solve(prob, KahanLi8(), abstol=1e-10, reltol=1e-10, dt=Δt);
+sol = calc_nbody(mass, periods, T0, ep, sqecosω, sqesinω, tspan);
 
 #Store model
-@time df_001 = store_orbit(sol_001, mass, nbody, NVEC);
-
+@time df = store_orbit(sol_001, mass, nbody, NVEC);
 #Extract TTs
-@time nTT,TT=getTT(sol_001, mass, G);
+@time nTT,TT=getTT(sol, mass, G);
 
 #Calcalate Mean Periods
 tt_period,tt_T0=calcmeanperiods(nTT,TT);
 
+#Do a comparision of the period we asked for vs the period we got.
 println(tt_period ./ DAYS)
 println(periods ./ DAYS)
-#println(tt_T0 ./ DAYS)
 println((tt_period ./ DAYS) - (periods ./ DAYS))
-
 
 #makeplots_v3(df_001,nbody,planet_names)
 
-plotTTVs(tt_T0,tt_period,nTT,TT)
+plotTTVs(tt_T0, tt_period, nTT, TT)
 
 t=0;
 using BenchmarkTools
 @benchmark H_simd(p0, q0, mass, t)
 
+@benchmark ll = likelihood(mass, periods, T0, ep, sqecosω, sqesinω, tspan, G, nbody)
