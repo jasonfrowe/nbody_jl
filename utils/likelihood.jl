@@ -1,7 +1,16 @@
-function likelihood(mass, periods, T0, ep, sqecosω, sqesinω, tspan, G, nbody)
+function likelihood(modelpars, extrapars)
+    
+    ep, tspan, G, nbody = extrapars
+
+    mass = modelpars[1 : nbody]
+    periods = modelpars[nbody + 1 : 2 * nbody]
+    T0 = modelpars[2 * nbody + 1 : 3 * nbody]
+    sqecosω = modelpars[3 * nbody + 1 : 4 * nbody]
+    sqesinω = modelpars[4 * nbody + 1 : 5 * nbody]
 
     sol = calc_nbody(mass, periods, T0, ep, sqecosω, sqesinω, tspan)
     nTT, TT = getTT(sol, mass, G)
+    #println(TT)
 
     chi = 0.0
     for i ∈ 2:length(nTT_obs)
