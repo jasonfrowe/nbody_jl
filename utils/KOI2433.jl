@@ -139,5 +139,3 @@ nTT_obs, TT_obs, TTerr_obs = readtt(nbody,ttdir,ttbase);
 ep = tstart #Epoch -- if you need to shift T0 to match tstart
 nbody = length(mass); #compute the number of bodies 
 tspan = (tstart, tend); #integration range
-
-priors

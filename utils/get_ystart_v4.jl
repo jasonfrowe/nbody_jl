@@ -45,11 +45,11 @@ function get_ystart_v4(
             if abs(ecosω[i]) < ϵₛ
                 ω[i] = pid2
             else
-                ω[i] = atan(esinω/ecosω)
+                ω[i] = atan(esinω[i]/ecosω[i])
             end
 
             if ecosω[i] > 0.0 && esinω[i] < 0.0
-                ω[i] = tPi + ω[i]
+                ω[i] = tpi + ω[i]
             elseif ecosω[i] < 0.0 && esinω[i] >= 0.0
                 ω[i] = π + ω[i]
             elseif ecosω[i] <= 0.0 && esinω[i] < 0.0

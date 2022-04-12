@@ -52,7 +52,7 @@ function mhgmcmc(x, ex, llx, β, priors ; nbuffer = 0, buffer = [0])
     u = rand()
     
     if u <= alpha #accept trial
-        ac=[0, n] 
+        ac = [0, n] 
     else         #reject trial
         x1 = x .* 1.0
         llx1 = llx * 1.0
@@ -60,5 +60,24 @@ function mhgmcmc(x, ex, llx, β, priors ; nbuffer = 0, buffer = [0])
     end
     
     return llx1, x1, ac
+    
+end;
+ 
+function genchain(x0, ex, β, priors, nsample ; nbuffer = 0, buffer = [0])
+    
+    llx=likelihood(x0, ex)
+    chain=[[x0,[1,1]]] #first chain value
+    for i in 1:nsample
+        if nbuffer == 0
+            llxp1,xp2,ac=mhgmcmc(x0, ex, llx, β, priors)
+        else
+            llxp1,xp2,ac=mhgmcmc(x0, ex, llx, β, priors, nbuffer, buffer)
+        end
+        #println(ac)
+        push!(chain,[xp2,ac])
+        x0=xp2.*1.0
+    end
+    
+    return chain
     
 end;

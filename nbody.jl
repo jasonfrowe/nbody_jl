@@ -24,6 +24,7 @@ include("utils/readtt.jl")
 include("utils/calc_nbody.jl")
 include("utils/likelihood.jl")
 include("utils/logprior.jl")
+include("utils/dmcmc.jl")
 
 # Import Planet System parameters
 include("utils/KOI2433.jl");
@@ -44,19 +45,28 @@ println(tt_period ./ DAYS)
 println(periods ./ DAYS)
 println((tt_period ./ DAYS) - (periods ./ DAYS))
 
-# makeplots_v3(df,nbody,planet_names)
-
+# makeplots_v3(df,nbody,planet_names) #Generate N-body plot.
+ 
+# Plot TTVs
 plotTTVs(tt_T0, tt_period, nTT, TT)
 
 modelpars = [mass; periods; T0; sqecosω; sqesinω];
 extrapars = [ep, tspan, G, nbody];
 ll = likelihood(modelpars, extrapars)
 
+# Set up Matrix wit Priors 
 priors = [mass_prior; periods_prior; T0_prior; sqecosω_prior;  sqesinω_prior];
 lp = logprior(modelpars, priors)
 
+# Set up β parameter for Gibbs sampling
 β = [massβ; periodsβ; T0β; sqecosωβ; sqesinωβ]; 
 
 llx = ll + lp
 llx1, x1, ac = mhgmcmc(modelpars, extrapars, llx, β, priors);
-ac
+
+nsample = 100
+# TODO@jasonfrowe add threads to genchain for multiple walkers
+chain = genchain(modelpars, extrapars, β, priors, nsample);
+
+# get likelihood of last chain to check that the walker is working.
+likelihood(chain[nsample+1][1], extrapars)
