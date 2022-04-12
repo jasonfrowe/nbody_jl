@@ -14,9 +14,46 @@ mass = [0.99 * MSUN,
         1.201^mrexp * MEARTH
        ]
 
+mass_prior = [
+      mass[1] 0.5 * MSUN 2.0 * MSUN 0.02 * MSUN 0 ;
+      mass[2] 0.1 * MEARTH  50.0 * MEARTH 0 1 ;
+      mass[3] 0.1 * MEARTH  50.0 * MEARTH 0 1 ; 
+      mass[4] 0.1 * MEARTH  50.0 * MEARTH 0 1 ;
+      mass[5] 0.1 * MEARTH  50.0 * MEARTH 0 1 ;
+      mass[6] 0.1 * MEARTH  50.0 * MEARTH 0 1 ;
+      mass[7] 0.1 * MEARTH  50.0 * MEARTH 0 1 ;
+      mass[8] 0.1 * MEARTH  50.0 * MEARTH 0 1 ;
+      mass[9] 0.1 * MEARTH  50.0 * MEARTH 0 1
+]
+
 #Orbital Eccentricity
 sqecosω = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0] #eccentricity
+
+sqecosω_prior = [
+      sqecosω[1] 0.0 1.0 0 0;
+      sqecosω[2] 0.0 1.0 0 1;
+      sqecosω[3] 0.0 1.0 0 1;
+      sqecosω[4] 0.0 1.0 0 1;
+      sqecosω[5] 0.0 1.0 0 1;
+      sqecosω[6] 0.0 1.0 0 1;
+      sqecosω[7] 0.0 1.0 0 1;
+      sqecosω[8] 0.0 1.0 0 1;
+      sqecosω[9] 0.0 1.0 0 1
+]
+
 sqesinω = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0] #eccentricity
+
+sqesinω_prior = [
+      sqesinω[1] 0.0 1.0 0 0;
+      sqesinω[2] 0.0 1.0 0 1;
+      sqesinω[3] 0.0 1.0 0 1;
+      sqesinω[4] 0.0 1.0 0 1;
+      sqesinω[5] 0.0 1.0 0 1;
+      sqesinω[6] 0.0 1.0 0 1;
+      sqesinω[7] 0.0 1.0 0 1;
+      sqesinω[8] 0.0 1.0 0 1;
+      sqesinω[9] 0.0 1.0 0 1
+]
 
 #Orbital Periods
 periods = [0.0, 
@@ -29,6 +66,19 @@ periods = [0.0,
            8.6431613712E+01 * DAYS, 
            3.3737863179E+00 * DAYS
           ]  
+
+pσ = 1.0e-5
+periods_prior = [
+      periods[1] 0.0 1.0 0 0;
+      periods[2] 0.0 0.0 pσ 2;
+      periods[3] 0.0 0.0 pσ 2;
+      periods[4] 0.0 0.0 pσ 2;
+      periods[5] 0.0 0.0 pσ 2;
+      periods[6] 0.0 0.0 pσ 2;
+      periods[7] 0.0 0.0 pσ 2;
+      periods[8] 0.0 0.0 pσ 2;
+      periods[9] 0.0 0.0 pσ 2
+]
 
 nbody=length(mass) #number of bodies
 
@@ -44,6 +94,19 @@ T0 = [0.0,
       2.8834623274E+02 * DAYS
      ]
 
+T0σ = 1.0e-4
+T0_prior = [
+      T0[1] 0.0 1.0 0 0;
+      T0[2] 0.0 1.0 T0σ 2;
+      T0[3] 0.0 1.0 T0σ 2;
+      T0[4] 0.0 1.0 T0σ 2;
+      T0[5] 0.0 1.0 T0σ 2;
+      T0[6] 0.0 1.0 T0σ 2;
+      T0[7] 0.0 1.0 T0σ 2;
+      T0[8] 0.0 1.0 T0σ 2;
+      T0[9] 0.0 1.0 T0σ 2
+]
+
 #Time span for simulation
 tstart =  285.3977955338*DAYS #starting time
 tend   = 1524.0011050734*DAYS #end time
@@ -52,7 +115,8 @@ tend   = 1524.0011050734*DAYS #end time
 Δt=0.00012; #minimum(periods[2:nbody])/10
 
 #Read in transit times -- this uses the DR25 Kepler Database format
-ttdir = "/Volumes/astro/Kepler/Kepler_n/timing/"
+# ttdir = "/Volumes/astro/Kepler/Kepler_n/timing/"
+ttdir = "TTVs/"
 ttbase = "koi2433"
 nTT_obs, TT_obs, TTerr_obs = readtt(nbody,ttdir,ttbase);
 

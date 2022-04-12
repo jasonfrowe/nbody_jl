@@ -7,6 +7,7 @@ using StaticArrays
 using LoopVectorization
 using LsqFit
 using BenchmarkTools
+using Distributions
 
 # Import Constants
 include("utils/constants.jl");
@@ -22,6 +23,7 @@ include("utils/plotting_functions.jl")
 include("utils/readtt.jl")
 include("utils/calc_nbody.jl")
 include("utils/likelihood.jl")
+include("utils/logprior.jl")
 
 # Import Planet System parameters
 include("utils/KOI2433.jl");
@@ -46,16 +48,10 @@ println((tt_period ./ DAYS) - (periods ./ DAYS))
 
 plotTTVs(tt_T0, tt_period, nTT, TT)
 
-# t=0.0;
-# using BenchmarkTools
-# @benchmark H_simd(p0, q0, mass, t)
-
-modelpars = [mass; periods; T0; sqecosω; sqesinω]
-extrapars = [ep, tspan, G, nbody]
+modelpars = [mass; periods; T0; sqecosω; sqesinω];
+extrapars = [ep, tspan, G, nbody];
 ll = likelihood(modelpars, extrapars)
 
-@benchmark ll = likelihood(modelpars, extrapars)
+priors = [mass_prior; periods_prior; T0_prior; sqecosω_prior;  sqesinω_prior]
+lp = logprior(modelpars, priors)
 
-test2=modelpars[nbody+1:2*nbody]
-
-# using Turing, Distributions
