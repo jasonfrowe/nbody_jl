@@ -64,9 +64,13 @@ lp = logprior(modelpars, priors)
 llx = ll + lp
 llx1, x1, ac = mhgmcmc(modelpars, extrapars, llx, β, priors);
 
-nsample = 100
+nsample = 1000
 # TODO@jasonfrowe add threads to genchain for multiple walkers
 chain = genchain(modelpars, extrapars, β, priors, nsample);
 
 # get likelihood of last chain to check that the walker is working.
 likelihood(chain[nsample+1][1], extrapars)
+
+burnin = 10
+corscale = betarescale(chain[nsample+1][1], extrapars, β, nsample, burnin)
+
