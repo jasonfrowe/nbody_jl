@@ -39,20 +39,20 @@ function get_ystart_v4(
             eccn[i] = 0.99 #set upper limit for useful eccentricity
         end
 
-        if eccn[i] == 0.0
+        if abs(eccn[i]) < ϵₛ
             ω[i] = 0.0
         else
-            if ecosω == 0.0
+            if abs(ecosω[i]) < ϵₛ
                 ω[i] = pid2
             else
                 ω[i] = atan(esinω/ecosω)
             end
 
-            if ecosω[i] > 0.0 && esinω < 0.0
+            if ecosω[i] > 0.0 && esinω[i] < 0.0
                 ω[i] = tPi + ω[i]
-            elseif ecosω < 0.0 && esinω >= 0.0
+            elseif ecosω[i] < 0.0 && esinω[i] >= 0.0
                 ω[i] = π + ω[i]
-            elseif ecosω <= 0.0 && esinω < 0.0
+            elseif ecosω[i] <= 0.0 && esinω[i] < 0.0
                 ω[i] = π + ω[i]
             end
         end

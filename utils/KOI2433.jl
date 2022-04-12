@@ -26,34 +26,43 @@ mass_prior = [
       mass[9] 0.1 * MEARTH  50.0 * MEARTH 0 1
 ]
 
+mβ = 1.0 * MEARTH
+massβ = mβ .* ones(length(mass))
+
 #Orbital Eccentricity
 sqecosω = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0] #eccentricity
 
 sqecosω_prior = [
-      sqecosω[1] 0.0 1.0 0 0;
-      sqecosω[2] 0.0 1.0 0 1;
-      sqecosω[3] 0.0 1.0 0 1;
-      sqecosω[4] 0.0 1.0 0 1;
-      sqecosω[5] 0.0 1.0 0 1;
-      sqecosω[6] 0.0 1.0 0 1;
-      sqecosω[7] 0.0 1.0 0 1;
-      sqecosω[8] 0.0 1.0 0 1;
-      sqecosω[9] 0.0 1.0 0 1
+      sqecosω[1] -1.0 1.0 0 0;
+      sqecosω[2] -1.0 1.0 0 1;
+      sqecosω[3] -1.0 1.0 0 1;
+      sqecosω[4] -1.0 1.0 0 1;
+      sqecosω[5] -1.0 1.0 0 1;
+      sqecosω[6] -1.0 1.0 0 1;
+      sqecosω[7] -1.0 1.0 0 1;
+      sqecosω[8] -1.0 1.0 0 1;
+      sqecosω[9] -1.0 1.0 0 1
 ]
+
+ecβ = 0.001
+sqecosωβ = ecβ .* ones(length(mass))
 
 sqesinω = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0] #eccentricity
 
 sqesinω_prior = [
-      sqesinω[1] 0.0 1.0 0 0;
-      sqesinω[2] 0.0 1.0 0 1;
-      sqesinω[3] 0.0 1.0 0 1;
-      sqesinω[4] 0.0 1.0 0 1;
-      sqesinω[5] 0.0 1.0 0 1;
-      sqesinω[6] 0.0 1.0 0 1;
-      sqesinω[7] 0.0 1.0 0 1;
-      sqesinω[8] 0.0 1.0 0 1;
-      sqesinω[9] 0.0 1.0 0 1
+      sqesinω[1] -1.0 1.0 0 0;
+      sqesinω[2] -1.0 1.0 0 1;
+      sqesinω[3] -1.0 1.0 0 1;
+      sqesinω[4] -1.0 1.0 0 1;
+      sqesinω[5] -1.0 1.0 0 1;
+      sqesinω[6] -1.0 1.0 0 1;
+      sqesinω[7] -1.0 1.0 0 1;
+      sqesinω[8] -1.0 1.0 0 1;
+      sqesinω[9] -1.0 1.0 0 1
 ]
+
+esβ = 0.001
+sqesinωβ = esβ .* ones(length(mass))
 
 #Orbital Periods
 periods = [0.0, 
@@ -79,6 +88,9 @@ periods_prior = [
       periods[8] 0.0 0.0 pσ 2;
       periods[9] 0.0 0.0 pσ 2
 ]
+
+pβ = 1.0e-5
+periodsβ = pβ .* ones(length(mass))
 
 nbody=length(mass) #number of bodies
 
@@ -107,6 +119,9 @@ T0_prior = [
       T0[9] 0.0 1.0 T0σ 2
 ]
 
+Tβ = 1.0e-5
+T0β = Tβ .* ones(length(mass))
+
 #Time span for simulation
 tstart =  285.3977955338*DAYS #starting time
 tend   = 1524.0011050734*DAYS #end time
@@ -124,3 +139,5 @@ nTT_obs, TT_obs, TTerr_obs = readtt(nbody,ttdir,ttbase);
 ep = tstart #Epoch -- if you need to shift T0 to match tstart
 nbody = length(mass); #compute the number of bodies 
 tspan = (tstart, tend); #integration range
+
+priors

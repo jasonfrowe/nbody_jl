@@ -21,7 +21,7 @@ function logprior(modelpars, priors)
             lp += log( pdf( truncated(Normal(priors[i,1], priors[i,4]), priors[i,2], priors[i,3]), modelpars[i]) )
 
         end
-        println("lp: $(i) $(lp) $(priors[i, :])")
+        #println("lp: $(i) $(lp) $(priors[i, :])")
     end
 
     return lp

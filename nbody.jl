@@ -52,6 +52,11 @@ modelpars = [mass; periods; T0; sqecosω; sqesinω];
 extrapars = [ep, tspan, G, nbody];
 ll = likelihood(modelpars, extrapars)
 
-priors = [mass_prior; periods_prior; T0_prior; sqecosω_prior;  sqesinω_prior]
+priors = [mass_prior; periods_prior; T0_prior; sqecosω_prior;  sqesinω_prior];
 lp = logprior(modelpars, priors)
 
+β = [massβ; periodsβ; T0β; sqecosωβ; sqesinωβ]; 
+
+llx = ll + lp
+llx1, x1, ac = mhgmcmc(modelpars, extrapars, llx, β, priors);
+ac
