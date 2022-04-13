@@ -77,3 +77,29 @@ corscale = betarescale(chain[nsample+1][1], extrapars, β, nsample, burnin)
 
 nsample = 5000
 chain = genchain(modelpars, extrapars, β .* corscale, priors, nsample);
+
+#Calculuate acceptance rates
+
+nfitpars=length(modelpars)
+accrate=zeros(nfitpars)
+accsel=zeros(nfitpars)
+vecrate=0
+vecsel=0
+for i in 2:nsample
+    if chain[i][2][2] > 0
+        if chain[i][2][1]==0
+            accrate[Int(chain[i][2][2])]+=1
+        end
+        accsel[Int(chain[i][2][2])]+=1
+    else
+        if chain[i][2][1]==0
+            vecrate+=1
+        end
+        vecsel+=1
+    end 
+end
+println(accrate./accsel)
+println(accsel)
+print([vecrate/vecsel,vecrate,vecsel])
+
+
