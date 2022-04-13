@@ -25,6 +25,7 @@ include("utils/calc_nbody.jl")
 include("utils/likelihood.jl")
 include("utils/logprior.jl")
 include("utils/dmcmc.jl")
+include("utils/betarescale.jl")
 
 # Import Planet System parameters
 include("utils/KOI2433.jl");
@@ -71,6 +72,8 @@ chain = genchain(modelpars, extrapars, β, priors, nsample);
 # get likelihood of last chain to check that the walker is working.
 likelihood(chain[nsample+1][1], extrapars)
 
-burnin = 10
+burnin = 100
 corscale = betarescale(chain[nsample+1][1], extrapars, β, nsample, burnin)
 
+nsample = 5000
+chain = genchain(modelpars, extrapars, β .* corscale, priors, nsample);

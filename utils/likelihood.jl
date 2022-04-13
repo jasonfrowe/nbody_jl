@@ -12,13 +12,18 @@ function likelihood(modelpars, extrapars)
     nTT, TT = getTT(sol, mass, G)
     #println(TT)
 
+    large = 1.0e30 # a large number
     chi = 0.0
     for i ∈ 2:length(nTT_obs)
 
-        for j ∈ 1:nTT_obs[i]
+        if nTT[i] > 0
+            for j ∈ 1:nTT_obs[i]
 
-            chi += minimum( (((TT_obs[i,j] * DAYS) .- TT[i,1:nTT[i]]) ./ (TTerr_obs[i, j] * DAYS)).^2 )
-            
+                chi += minimum( (((TT_obs[i,j] * DAYS) .- TT[i,1:nTT[i]]) ./ (TTerr_obs[i, j] * DAYS)).^2 )
+                
+            end
+        else
+            chi += large
         end
     end
     ll=-0.5*chi

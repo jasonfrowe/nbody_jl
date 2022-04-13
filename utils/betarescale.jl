@@ -50,8 +50,8 @@ function betarescale(x, ex, β, nsample, burnin; imax=20)
         nproppsub = nproppsub .* 0 #reset nproppsub counts for each loop
         
         #Make another chain starting with xin
-        betain = β .* corscale   #New beta for Gibbs sampling 
-        chain = genchain(xin, ex, β, priors, nsample)
+        βin = β .* corscale   #New beta for Gibbs sampling 
+        chain = genchain(xin, ex, βin, priors, nsample)
         
         xin = chain[nchain][1] #Store current parameter state 
         
