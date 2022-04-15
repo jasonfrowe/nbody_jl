@@ -1,4 +1,4 @@
-function betarescale(x, ex, β, nsample, burnin; imax=20)
+function betarescale(x, ex, β, nsample, burnin; imax=10)
     
     alow = 0.22 #alow, ahigh define the acceptance rate range we want
     ahigh = 0.28

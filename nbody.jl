@@ -70,13 +70,15 @@ nsample = 1000
 chain = genchain(modelpars, extrapars, β, priors, nsample);
 
 # get likelihood of last chain to check that the walker is working.
-likelihood(chain[nsample+1][1], extrapars)
+likelihood(chain[nsample+1][1], extrapars) .+ logprior(chain[nsample+1][1], priors)
 
 burnin = 100
 corscale = betarescale(chain[nsample+1][1], extrapars, β, nsample, burnin)
 
-nsample = 5000
+nsample = 50000
 chain = genchain(modelpars, extrapars, β .* corscale, priors, nsample);
+
+chain2 =  genchain(modelpars, extrapars, β .* corscale, priors, nsample, nsample, chain)
 
 #Calculuate acceptance rates
 
@@ -102,4 +104,14 @@ println(accrate./accsel)
 println(accsel)
 print([vecrate/vecsel,vecrate,vecsel])
 
+plot_TTV(chain2, modelpars, extrapars, TT_obs, TTerr_obs, nTT_obs, 5)
 
+mplot = zeros(nsample)
+for i ∈ 1:nsample
+    mplot[i] = chain[i][1][3] / MEARTH
+end
+
+trace = histogram(x = mplot)
+plot(trace)
+
+methods(genchain)
