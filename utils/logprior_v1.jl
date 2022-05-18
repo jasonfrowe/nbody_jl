@@ -1,4 +1,4 @@
-function logprior(modelpars, priors)
+function logprior_v1(modelpars, priors)
 
     lp = 1.0 #initialize log-prior 
 

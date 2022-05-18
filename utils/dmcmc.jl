@@ -1,4 +1,4 @@
-function mhgmcmc(x, ex, llx, β, priors ; nbuffer = 0, buffer = [0])
+function mhgmcmc(x, ex, llx, β, priors, nbuffer = 0, buffer = [0])
     
     corβ = 0.05 #controls vector jump amplitude
     rsamp = rand() #draw a random number to decide which sampler to use 
@@ -28,8 +28,8 @@ function mhgmcmc(x, ex, llx, β, priors ; nbuffer = 0, buffer = [0])
         n1 = Integer(floor(rand() * nbuffer) + 1) #pick 2 random numbers
         n2 = Integer(floor(rand() * nbuffer) + 1)
         
-        xd1 = pars2x(buffer[n1][1], fitpars)
-        xd2 = pars2x(buffer[n2][1], fitpars)
+        xd1 = buffer[n1][1]
+        xd2 = buffer[n2][1]
         
         vectorjump=xd1 .- xd2
         x1= x .+ (vectorjump .* corβ)
@@ -63,7 +63,7 @@ function mhgmcmc(x, ex, llx, β, priors ; nbuffer = 0, buffer = [0])
     
 end;
  
-function genchain(x0, ex, β, priors, nsample ; nbuffer = 0, buffer = [0])
+function genchain(x0, ex, β, priors, nsample, nbuffer = 0, buffer = [0])
     
     llx=likelihood(x0, ex)
     chain=[[x0,[1,1]]] #first chain value

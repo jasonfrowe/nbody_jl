@@ -8,7 +8,7 @@ function H_simd(
     nvecd2 = Integer(NVEC / 2)
     
     h1 = 0.0
-    h2 = 0.0
+    h2 = 0.0 
     for i ∈ 1:nbody
         pp = 0
         @simd for k ∈ 0:nvecd2 - 1

@@ -1,4 +1,4 @@
-function likelihood_v2(modelpars, extrapars)
+function likelihood(modelpars, extrapars)
     
     ep, tspan, G, nbody = extrapars
 
@@ -12,28 +12,31 @@ function likelihood_v2(modelpars, extrapars)
     nTT, TT = getTT(sol, mass, G)
     #println(TT)
 
+    large = 1.0e30 # a large number
+    chi = 0.0
+
     for i ∈ 2:length(nTT_obs)
-        trnum_obs = Int.(floor.( (TT_obs[nTT_obs[i]] .- ep) .* DAYS ./ periods[i]  .+ 0.5 ))#Assign a transit number
-        trnum     = 
+        trnum_obs = Int.(floor.( (TT_obs[i,1:nTT_obs[i]] .* DAYS .- T0[i]) ./ periods[i] .+ 0.5 ))
+        trnum = Int.( floor.( (TT[i,1:nTT[i]] .- T0[i]) ./ periods[i] .+ 0.5 ) )
+
+        j=0
+        for trnum1 ∈ trnum_obs
+            j+=1
+            pa = indexin(trnum1,trnum)
+            if pa .== nothing
+                chi += large
+            else
+                chi += ((TT[i,pa[1]] - TT_obs[i,j] * DAYS) / (TTerr_obs[i,j] * DAYS))^2
+            end
+
+        end
+
+        # println(trnum_obs)
+        # println(trnum)
 
     end
 
-
-    # large = 1.0e30 # a large number
-    # chi = 0.0
-    # for i ∈ 2:length(nTT_obs)
-
-    #     if nTT[i] > 0
-    #         for j ∈ 1:nTT_obs[i]
-
-    #             chi += minimum( (((TT_obs[i,j] * DAYS) .- TT[i,1:nTT[i]]) ./ (TTerr_obs[i, j] * DAYS)).^2 )
-                
-    #         end
-    #     else
-    #         chi += large
-    #     end
-    # end
-    # ll=-0.5*chi
+    ll=-0.5*chi
 
     return ll
 

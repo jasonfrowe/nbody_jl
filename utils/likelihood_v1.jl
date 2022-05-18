@@ -1,4 +1,4 @@
-function likelihood(modelpars, extrapars)
+function likelihood_v1(modelpars, extrapars)
     
     ep, tspan, G, nbody = extrapars
 
