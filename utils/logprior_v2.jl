@@ -15,11 +15,13 @@ function logprior(modelpars, priors)
             end
 
         elseif priors[i, 5] == 2
-            
+           
+            # Guassian prior
             lp +=  -( (modelpars[i] - priors[i,1]) / priors[1,4] )^2
 
         elseif priors[i, 5] == 3
-            
+           
+            # Truncated prior
             if modelpars[i] > priors[i,3] || modelpars[i] < priors[i,2]
                 lp = -Inf
             else

@@ -32,27 +32,17 @@ include("utils/betarescale.jl")
 # include("utils/LHS1678.jl") 
 include("utils/V1298tau.jl")
 
-
-periods_t = [ periods[1],
-              periods[2]-0.000001,
-              periods[3]-0.000002,
-              periods[4]-0.000006,
-              periods[5]-0.00007
-            ];
-
-T0_t = [ T0[1],
-         T0[2]-0.00005,
-         T0[3]-0.0003,
-         T0[4]-0.00065,
-         T0[5]-0.00205
-       ]
-
-sol = calc_nbody(mass, periods_t, T0_t, ep, sqecosω, sqesinω, tspan);
+#tspan
+#tspan = [19.35, 26.0]
+sol = calc_nbody(mass, periods, T0, ep, sqecosω, sqesinω, tspan);
 
 #Store model
 @time df = store_orbit(sol, mass, nbody, NVEC);
 #Extract TTs
 @time nTT,TT=getTT(sol, mass, G);
+
+plot_orbit(df,nbody,planet_names)
+plot_asemi(df,nbody)
 
 #Calcalate Mean Periods
 tt_period,tt_T0=calcmeanperiods(nTT,TT);
@@ -62,20 +52,14 @@ println(tt_period ./ DAYS)
 println(periods ./ DAYS)
 println((tt_period ./ DAYS) - (periods ./ DAYS))
 
-modelpars_t = [mass; periods_t; T0_t; sqecosω; sqesinω];
-extrapars_t = [ep, tspan, G, nbody];
-ll = likelihood(modelpars_t, extrapars_t)
-
-modelpars = [mass; periods; T0; sqecosω; sqesinω];
-extrapars = [ep, tspan, G, nbody];
-
-nb = 5
-plot_1ttv(nTT_obs, TT_obs, TTerr_obs, nTT, TT, modelpars, extrapars, nb)
-
 # makeplots_v3(df,nbody,planet_names) #Generate N-body plot.
  
 # Plot TTVs
-# plotTTVs(tt_T0, tt_period, nTT, TT)
+plotTTVs(tt_T0, tt_period, nTT, TT)
+
+modelpars = [mass; periods; T0; sqecosω; sqesinω];
+extrapars = [ep, tspan, G, nbody];
+ll = likelihood(modelpars, extrapars)
 
 # Set up Matrix wit Priors 
 priors = [mass_prior; periods_prior; T0_prior; sqecosω_prior;  sqesinω_prior];
@@ -85,11 +69,11 @@ lp = logprior(modelpars, priors)
 β = [massβ; periodsβ; T0β; sqecosωβ; sqesinωβ]; 
 
 llx = ll + lp
-llx1, x1, ac = mhgmcmc(modelpars_t, extrapars, llx, β, priors);
+llx1, x1, ac = mhgmcmc(modelpars, extrapars, llx, β, priors);
 
 nsample = 1000
 # TODO@jasonfrowe add threads to genchain for multiple walkers
-chain = genchain(modelpars_t, extrapars, β, priors, nsample);
+chain = genchain(modelpars, extrapars, β, priors, nsample);
 
 # get likelihood of last chain to check that the walker is working.
 likelihood(chain[nsample+1][1], extrapars) .+ logprior(chain[nsample+1][1], priors)
@@ -130,17 +114,19 @@ plot_TTV(chain2, modelpars, extrapars, TT_obs, TTerr_obs, nTT_obs, 2)
 plot_TTV(chain2, modelpars, extrapars, TT_obs, TTerr_obs, nTT_obs, 3)
 plot_TTV(chain2, modelpars, extrapars, TT_obs, TTerr_obs, nTT_obs, 4)
 plot_TTV(chain2, modelpars, extrapars, TT_obs, TTerr_obs, nTT_obs, 5)
+plot_TTV(chain2, modelpars, extrapars, TT_obs, TTerr_obs, nTT_obs, 6)
+plot_TTV(chain2, modelpars, extrapars, TT_obs, TTerr_obs, nTT_obs, 7)
+plot_TTV(chain2, modelpars, extrapars, TT_obs, TTerr_obs, nTT_obs, 8)
 
 maximum(TTerr_obs)
 indexin(maximum(TTerr_obs),TTerr_obs)
 
 mplot = zeros(nsample)
 for i ∈ 1:nsample
-    mplot[i] = chain[i][1][5] / MEARTH
+    mplot[i] = chain[i][1][3] / MEARTH
 end
 
-
-trace = histogram(x = mplot, nbinsx=50);
+trace = histogram(x = mplot, nbinsx=50)
 plot(trace)
 
 methods(genchain)
