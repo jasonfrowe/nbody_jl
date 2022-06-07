@@ -26,6 +26,7 @@ include("utils/likelihood_v2.jl")
 include("utils/logprior_v2.jl")
 include("utils/dmcmc.jl")
 include("utils/betarescale.jl")
+include("utils/plot_1ttv.jl")
 
 # Import Planet System parameters
 # include("utils/KOI2433.jl");
@@ -46,6 +47,9 @@ T0_t = [ T0[1],
          T0[4]-0.00065,
          T0[5]-0.00205
        ]
+
+periods_t = periods .* 1.0
+T0_t = T0 .* 1.0
 
 sol = calc_nbody(mass, periods_t, T0_t, ep, sqecosω, sqesinω, tspan);
 
@@ -69,7 +73,7 @@ ll = likelihood(modelpars_t, extrapars_t)
 modelpars = [mass; periods; T0; sqecosω; sqesinω];
 extrapars = [ep, tspan, G, nbody];
 
-nb = 5
+nb = 2
 plot_1ttv(nTT_obs, TT_obs, TTerr_obs, nTT, TT, modelpars, extrapars, nb)
 
 # makeplots_v3(df,nbody,planet_names) #Generate N-body plot.
