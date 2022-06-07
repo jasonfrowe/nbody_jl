@@ -12,10 +12,10 @@ mass = [1.101 * MSUN,
 
 mass_prior = [
       mass[1] 0.5 * MSUN 2.0 * MSUN 0.02 * MSUN 0 ;
-      mass[2] 0.1 * MEARTH  500.0 * MEARTH 50.0 * MEARTH 3 ;
+      mass[2] 0.1 * MEARTH  500.0 * MEARTH 50.0 * MEARTH 1 ;
       mass[3] 0.1 * MEARTH  100.0 * MEARTH 0 1 ; 
       mass[4] 0.1 * MEARTH  100.0 * MEARTH 0 1 ;
-      mass[5] 0.1 * MEARTH  500.0 * MEARTH 60.0 * MEARTH 3 
+      mass[5] 0.1 * MEARTH  500.0 * MEARTH 60.0 * MEARTH 1 
 ]
 
 mβ = 1.0 * MEARTH
