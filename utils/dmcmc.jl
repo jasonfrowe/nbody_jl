@@ -1,5 +1,5 @@
 function mhgmcmc(x, ex, llx, β, priors, nbuffer = 0, buffer = [0])
-    
+    #ex is extr parameters
     corβ = 0.05 #controls vector jump amplitude
     rsamp = rand() #draw a random number to decide which sampler to use 
     

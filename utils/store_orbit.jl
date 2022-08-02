@@ -52,9 +52,9 @@ function store_orbit(sol,
     end
     
     TotalEnergy = zeros(npt)
-    t = 0.0
+    #t = 0.0
     Threads.@threads for i ∈ 1:npt
-        TotalEnergy[i] = H_simd(sol.u[i][1:nbodyvecd2], sol.u[i][nbodyvecd2+1:nbody*NVEC], mass, t)
+        TotalEnergy[i] = H_simd(sol.u[i][1:nbodyvecd2], sol.u[i][nbodyvecd2+1:nbody*NVEC], mass)
     end
     df.TotalEnergy = TotalEnergy
     

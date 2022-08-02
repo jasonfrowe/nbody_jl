@@ -26,28 +26,29 @@ include("utils/likelihood_v2.jl")
 include("utils/logprior_v2.jl")
 include("utils/dmcmc.jl")
 include("utils/betarescale.jl")
+include("utils/plot_1ttv.jl")
 
 # Import Planet System parameters
-# include("utils/KOI2433.jl");
+include("utils/KOI2433.jl");
 # include("utils/LHS1678.jl") 
-include("utils/V1298tau.jl")
+# include("utils/V1298tau.jl")
 
 
-periods_t = [ periods[1],
-              periods[2]-0.000001,
-              periods[3]-0.000002,
-              periods[4]-0.000006,
-              periods[5]-0.00007
-            ];
+# periods_t = [ periods[1],
+#               periods[2]-0.000001,
+#               periods[3]-0.000002,
+#               periods[4]-0.000006,
+#               periods[5]-0.00007
+#             ];
 
-T0_t = [ T0[1],
-         T0[2]-0.00005,
-         T0[3]-0.0003,
-         T0[4]-0.00065,
-         T0[5]-0.00205
-       ]
+# T0_t = [ T0[1],
+#          T0[2]-0.00005,
+#          T0[3]-0.0003,
+#          T0[4]-0.00065,
+#          T0[5]-0.00205
+#        ]
 
-sol = calc_nbody(mass, periods_t, T0_t, ep, sqecosω, sqesinω, tspan);
+sol = calc_nbody(mass, periods, T0, ep, sqecosω, sqesinω, tspan);
 
 #Store model
 @time df = store_orbit(sol, mass, nbody, NVEC);
@@ -62,17 +63,17 @@ println(tt_period ./ DAYS)
 println(periods ./ DAYS)
 println((tt_period ./ DAYS) - (periods ./ DAYS))
 
-modelpars_t = [mass; periods_t; T0_t; sqecosω; sqesinω];
+modelpars_t = [mass; periods; T0; sqecosω; sqesinω];
 extrapars_t = [ep, tspan, G, nbody];
 ll = likelihood(modelpars_t, extrapars_t)
 
 modelpars = [mass; periods; T0; sqecosω; sqesinω];
 extrapars = [ep, tspan, G, nbody];
 
-nb = 5
+nb = 2
 plot_1ttv(nTT_obs, TT_obs, TTerr_obs, nTT, TT, modelpars, extrapars, nb)
 
-# makeplots_v3(df,nbody,planet_names) #Generate N-body plot.
+makeplots_v3(df,nbody,planet_names) #Generate N-body plot.
  
 # Plot TTVs
 # plotTTVs(tt_T0, tt_period, nTT, TT)

@@ -1,8 +1,7 @@
 function H_simd(
     p::AbstractVector, 
     q::AbstractVector, 
-    mass::AbstractVector, 
-    t::AbstractFloat)
+    mass::AbstractVector)
     
     nbody = length(mass)
     nvecd2 = Integer(NVEC / 2)

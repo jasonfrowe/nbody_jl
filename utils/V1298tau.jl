@@ -92,7 +92,7 @@ T0β = Tβ .* ones(length(mass))
 
 #Time span for simulation
 tstart = 7060.0 * DAYS #starting time
-tend   = 9550.0 * DAYS #end time
+tend   = 10500.0 * DAYS #end time
 
 #Integration time-step
 Δt=0.00012; #minimum(periods[2:nbody])/10
