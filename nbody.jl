@@ -39,35 +39,6 @@ include("utils/KOI2433.jl");
 # include("utils/V1298tau.jl")
 # include("utils/testcase.jl")
 
-# periods_t = [ periods[1],
-#               periods[2]-0.000001,
-#               periods[3]-0.000002,
-#               periods[4]-0.000006,
-#               periods[5]-0.00007
-#             ];
-
-# T0_t = [ T0[1],
-#          T0[2]-0.00005,
-#          T0[3]-0.0003,
-#          T0[4]-0.00065,
-#          T0[5]-0.00205
-#        ]
-
-# Δt = 0.00012 
-include("utils/KOI2433.jl");
-# for i ∈ 2:nbody
-#     mass[i] = 1.0 * MEARTH
-# end
-
-# p0, q0 = get_ystart_v5(mass, periods, T0, ep, sqecosω, sqesinω);
-# q0=SVector{size(q0)[1]}(q0); #store as Static Array for better speed
-# p0=SVector{size(p0)[1]}(p0);
-# mass=SVector{size(mass)[1]}(mass);
-# param=mass;
-# prob = HamiltonianProblem(H_simd, p0, q0, tspan, param); 
-# sol = solve(prob, KahanLi8(), abstol=1e-10, reltol=1e-10, dt=Δt);
-# #sol = solve(prob, Yoshida6(), abstol=1e-15, reltol=1e-15, dt=Δt);
-
 #Get model solution
 sol = calc_nbody(mass, periods, T0, ep, sqecosω, sqesinω, tspan);
 
