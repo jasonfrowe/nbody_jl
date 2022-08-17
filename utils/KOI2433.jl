@@ -127,7 +127,7 @@ tstart =  285.3977955338*DAYS #starting time
 tend   = 1524.0011050734*DAYS #end time
 
 #Integration time-step
-Δt=0.00012; #minimum(periods[2:nbody])/10
+Δt=0.0012; #minimum(periods[2:nbody])/10
 
 #Read in transit times -- this uses the DR25 Kepler Database format
 # ttdir = "/Volumes/astro/Kepler/Kepler_n/timing/"

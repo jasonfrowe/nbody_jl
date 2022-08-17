@@ -64,7 +64,9 @@ function mhgmcmc(x, ex, llx, β, priors, nbuffer = 0, buffer = [0])
 end;
  
 function genchain(x0, ex, β, priors, nsample, nbuffer = 0, buffer = [0])
-    
+   
+    p = Progress(nsample; showspeed=true)
+
     llx=likelihood(x0, ex)
     chain=[[x0,[1,1]]] #first chain value
     for i in 1:nsample
@@ -76,6 +78,7 @@ function genchain(x0, ex, β, priors, nsample, nbuffer = 0, buffer = [0])
         #println(ac)
         push!(chain,[xp2,ac])
         x0=xp2.*1.0
+        ProgressMeter.next!(p; showvalues = [(:i,i), (:llxp1,llxp1)])
     end
     
     return chain

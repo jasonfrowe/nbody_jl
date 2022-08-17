@@ -9,6 +9,7 @@ using LsqFit
 using BenchmarkTools
 using Distributions
 using LinearAlgebra
+using ProgressMeter
 
 1+1
 
@@ -50,27 +51,14 @@ sol = calc_nbody(mass, periods, T0, ep, sqecosω, sqesinω, tspan);
 #Calcalate Mean Periods
 tt_period,tt_T0=calcmeanperiods(nTT,TT);
 
-# periods = periods .+ (periods .- tt_period)
-
-# sol = calc_nbody(mass, periods, tt_T0, ep, sqecosω, sqesinω, tspan);
-# #Store model
-# @time df = store_orbit(sol, mass, nbody, NVEC);
-# #Extract TTs
-# @time nTT,TT=getTT(sol, mass, G);
-# #Calcalate Mean Periods
-# tt_period,tt_T0=calcmeanperiods(nTT,TT);
-
 #Do a comparision of the period we asked for vs the period we got.
 println(tt_period ./ DAYS)
 println(periods ./ DAYS)
 println((tt_period ./ DAYS) - (periods ./ DAYS))
 
-# modelpars_t = [mass; periods_t; T0_t; sqecosω; sqesinω];
-# extrapars_t = [ep, tspan, G, nbody];
-ll = likelihood(modelpars, extrapars)
-
 modelpars = [mass; periods; T0; sqecosω; sqesinω];
 extrapars = [ep, tspan, G, nbody];
+ll = likelihood(modelpars, extrapars)
 
 nb = 2
 plot_1ttv(nTT_obs, TT_obs, TTerr_obs, nTT, TT, modelpars, extrapars, nb)
@@ -93,6 +81,8 @@ llx1, x1, ac = mhgmcmc(modelpars, extrapars, llx, β, priors);
 nsample = 1000
 # TODO@jasonfrowe add threads to genchain for multiple walkers
 chain = genchain(modelpars, extrapars, β, priors, nsample);
+
+plot_TTV(chain, modelpars, extrapars, TT_obs, TTerr_obs, nTT_obs, 2)
 
 # get likelihood of last chain to check that the walker is working.
 likelihood(chain[nsample+1][1], extrapars) .+ logprior(chain[nsample+1][1], priors)
