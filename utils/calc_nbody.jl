@@ -19,11 +19,12 @@ function calc_nbody(mass, periods, T0, ep, sqecosω, sqesinω, tspan)
     nTT,TT=getTT(sol, mass, G);
 
     #Calcalate Mean Periods
+    tt_period = periods .* 1.0
+    tt_T0 = T0 .* 1.0 
     try
         tt_period,tt_T0=calcmeanperiods(nTT,TT);
     catch
-        tt_period = periods .* 1.0
-        tt_T0 = T0 .* 1.0
+        println("calcmeanperiods error")
     end
 
     #Get period correction
