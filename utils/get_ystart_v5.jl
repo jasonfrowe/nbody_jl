@@ -77,14 +77,17 @@ function get_ystart_v5(
     E = zeros(nbody)
     convcrit = 1.0e-15
     stateraw = zeros(nbody,NVEC)
+    maxiter = 250
     for ii ∈ 2:nbody
         i = isort[ii]
 
         E[i] = MA[i]*1.0
         δE = 1
-        while abs(δE) > convcrit
+        iter = 0
+        while abs(δE) > convcrit && iter < maxiter
             δE = (E[i] - eccn[i] * sin(E[i]) - MA[i]) / (1.0 - eccn[i] * cos(E[i]))
             E[i] = E[i] - δE
+            iter += 1
         end
 
         tanf_over_2 = tan(E[i]/2.0)*sqrt( (1.0+eccn[i]) / (1.0-eccn[i]) )

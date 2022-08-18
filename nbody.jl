@@ -94,13 +94,13 @@ modelpars_cstart = chain[nsample+1][1] .* 1.0
 
 likelihood(modelpars_cstart, extrapars) .+ logprior(modelpars_cstart, priors)
 
-nsample = 50000
+nsample = 10000
 chain = genchain(modelpars_cstart, extrapars, β .* corscale, priors, nsample);
 
-chain2 =  genchain(modelpars_cstart, extrapars, β .* corscale, priors, nsample, nsample, chain)
+chain2 =  genchain(modelpars_cstart, extrapars, β .* corscale, priors, nsample, nsample, chain);
 
-nsample3 = 500000
-chain3 =  genchain(chain2[nsample+1][1], extrapars, β .* corscale, priors, nsample3, nsample, chain2)
+nsample3 = 100000
+chain3 =  genchain(chain2[nsample+1][1], extrapars, β .* corscale, priors, nsample3, nsample, chain2);
 
 
 likelihood(chain3[nsample3+1][1], extrapars) .+ logprior(chain3[nsample3+1][1], priors)
@@ -129,20 +129,27 @@ println(accrate./accsel)
 println(accsel)
 print([vecrate/vecsel,vecrate,vecsel])
 
-plot_TTV(chain3, modelpars, extrapars, TT_obs, TTerr_obs, nTT_obs, 2)
-plot_TTV(chain3, modelpars, extrapars, TT_obs, TTerr_obs, nTT_obs, 3)
-plot_TTV(chain3, modelpars, extrapars, TT_obs, TTerr_obs, nTT_obs, 4)
-plot_TTV(chain3, modelpars, extrapars, TT_obs, TTerr_obs, nTT_obs, 5)
+plot_TTV(chain2, modelpars, extrapars, TT_obs, TTerr_obs, nTT_obs, 2)
+plot_TTV(chain2, modelpars, extrapars, TT_obs, TTerr_obs, nTT_obs, 3)
+plot_TTV(chain2, modelpars, extrapars, TT_obs, TTerr_obs, nTT_obs, 4)
+plot_TTV(chain2, modelpars, extrapars, TT_obs, TTerr_obs, nTT_obs, 5)
 
 maximum(TTerr_obs)
 indexin(maximum(TTerr_obs),TTerr_obs)
 
-mplot = zeros(nsample)
-for i ∈ 1:nsample
-    mplot[i] = chain3[i][1][2] / MEARTH
+mplot = zeros(nsample);
+for i ∈ Int(nsample/2):nsample
+    mplot[i] = chain2[i][1][3] / MEARTH;
 end
-
-
-trace = histogram(x = mplot, nbinsx=50);
+trace = histogram(x = mplot[Int(nsample/2):nsample], nbinsx=50);
 plot(trace)
 
+mplot = zeros(nsample);
+for j ∈ 2:nbody
+    for i ∈ 1:nsample
+        mplot[i] = chain2[i][1][j] / MEARTH;
+    end
+    massmean = mean(mplot)
+    massstd = std(mplot)
+    println([j, massmean, massstd])
+end

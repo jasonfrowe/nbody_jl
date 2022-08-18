@@ -33,15 +33,15 @@ massβ = mβ .* ones(length(mass))
 sqecosω = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0] #eccentricity
 
 sqecosω_prior = [
-      sqecosω[1] -1.0 1.0 0 0;
-      sqecosω[2] -1.0 1.0 0 1;
-      sqecosω[3] -1.0 1.0 0 1;
-      sqecosω[4] -1.0 1.0 0 1;
-      sqecosω[5] -1.0 1.0 0 1;
-      sqecosω[6] -1.0 1.0 0 1;
-      sqecosω[7] -1.0 1.0 0 1;
-      sqecosω[8] -1.0 1.0 0 1;
-      sqecosω[9] -1.0 1.0 0 1
+      sqecosω[1] -0.1 0.1 0 0;
+      sqecosω[2] -0.1 0.1 0 1;
+      sqecosω[3] -0.1 0.1 0 1;
+      sqecosω[4] -0.1 0.1 0 1;
+      sqecosω[5] -0.1 0.1 0 1;
+      sqecosω[6] -0.1 0.1 0 1;
+      sqecosω[7] -0.1 0.1 0 1;
+      sqecosω[8] -0.1 0.1 0 1;
+      sqecosω[9] -0.1 0.1 0 1
 ]
 
 ecβ = 0.001
@@ -50,15 +50,15 @@ sqecosωβ = ecβ .* ones(length(mass))
 sqesinω = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0] #eccentricity
 
 sqesinω_prior = [
-      sqesinω[1] -1.0 1.0 0 0;
-      sqesinω[2] -1.0 1.0 0 1;
-      sqesinω[3] -1.0 1.0 0 1;
-      sqesinω[4] -1.0 1.0 0 1;
-      sqesinω[5] -1.0 1.0 0 1;
-      sqesinω[6] -1.0 1.0 0 1;
-      sqesinω[7] -1.0 1.0 0 1;
-      sqesinω[8] -1.0 1.0 0 1;
-      sqesinω[9] -1.0 1.0 0 1
+      sqesinω[1] -0.1 0.1 0 0;
+      sqesinω[2] -0.1 0.1 0 1;
+      sqesinω[3] -0.1 0.1 0 1;
+      sqesinω[4] -0.1 0.1 0 1;
+      sqesinω[5] -0.1 0.1 0 1;
+      sqesinω[6] -0.1 0.1 0 1;
+      sqesinω[7] -0.1 0.1 0 1;
+      sqesinω[8] -0.1 0.1 0 1;
+      sqesinω[9] -0.1 0.1 0 1
 ]
 
 esβ = 0.001
