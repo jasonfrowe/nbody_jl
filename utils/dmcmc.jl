@@ -3,6 +3,8 @@ function mhgmcmc(x, ex, llx, β, priors, nbuffer = 0, buffer = [0])
     corβ = 0.05 #controls vector jump amplitude
     rsamp = rand() #draw a random number to decide which sampler to use 
     
+    x1 = x.* 1.0 #pre-allocate
+    
     if nbuffer == 0 || rsamp < 0.5 #Metropolis-Hastings
     
         npars = size(x)[1]
@@ -39,6 +41,7 @@ function mhgmcmc(x, ex, llx, β, priors, nbuffer = 0, buffer = [0])
     #pre-allocate
     llx1 = 0.0
     ac = [1,1]
+    alpha = 0.0
     
     lp = logprior(x1, priors) #calculate prior to make sure model is valid
     #println("MCMC: $(n), $(lp), $(x1)")
@@ -69,12 +72,16 @@ function genchain(x0, ex, β, priors, nsample, nbuffer = 0, buffer = [0])
 
     llx=likelihood(x0, ex)
     chain=[[x0,[1,1]]] #first chain value
+    llxp1 = 0.0 #pre-allocate for scope
+    xp2=x0.*1.0
+    ac = [1,1]
     for i in 1:nsample
         if nbuffer == 0
             llxp1,xp2,ac=mhgmcmc(x0, ex, llx, β, priors)
         else
             llxp1,xp2,ac=mhgmcmc(x0, ex, llx, β, priors, nbuffer, buffer)
         end
+        llx = llxp1 * 1.0
         #println(ac)
         push!(chain,[xp2,ac])
         x0=xp2.*1.0
